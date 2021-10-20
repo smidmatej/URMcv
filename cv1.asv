@@ -55,25 +55,29 @@ RyNY = subs(Ry,beta,-NYw);
 % pozice NY
 PNY= double(RzNY*RyNY*P)';
 
-% vykresleni pozic na globu
 hold on
+
+% vykresleni pozic 
 plot3(PS(1),PS(2),PS(3),'or')
 plot3(PNY(1),PNY(2),PNY(3),'or')
 
 %%
 
+Rzsw = subs(Rz,alpha,Sl)
+Rysl = subs(Ry,alfa,Sw)
+
 k = 100
-len = linspace(-Sl,-NYl,k)
-wid = linspace(-Sw,-NYw,k)
+len = linspace(Sl,NYl,k)
+wid = linspace(Sw,NYw,k)
 for i = 1:k
-    Rzn = subs(Rz,alpha,len(i));
-    Ryn = subs(Ry,beta,wid(i));
+    Rzn = subs(Rz,alfa,len(i));
+    Ryn = subs(Ry,alfa,wid(i));
     Pn{i} = 1.01*double(Rzn*Ryn*P)';
     
 end
 
 points = cell2mat(Pn')
-plot3(points(:,1),points(:,2),points(:,3),'r','LineWidth',3);
+plot3(points(:,1),points(:,2),points(:,3),'LineWidth',1);
 
 
 %       
