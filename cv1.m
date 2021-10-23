@@ -91,24 +91,6 @@ plot3(PNY_1(1),PNY_1(2),PNY_1(3),'or','MarkerFaceColor','r')
 plot3([PS(1),PS_1(1)]',[PS(2),PS_1(2)]',[PS(3),PS_1(3)]','r','LineWidth',3)
 plot3([PNY(1),PNY_1(1)]',[PNY(2),PNY_1(2)]',[PNY(3),PNY_1(3)]','r','LineWidth',3)
 
-% %% lepsi cesta
-% 
-% [lat,lon] = track2(Sw/pi*180,Sl/pi*180,NYw/pi*180,NYl/pi*180)
-% 
-% for i = 1:length(lat)
-% 
-%     Rz_lat = subs(Rz,alpha,lat(i)*pi/180); 
-%     Ry_lon = subs(Ry,beta,lon(i)*pi/180);
-%     P_track2 = [1 0 0]';
-%     top_track(i,:) = double(Rz_lat*Ry_lon*P_track2)';
-%     
-% end
-% 
-% plot3(top_track(:,1),top_track(:,2),top_track(:,3),'y','LineWidth',6);
-% figure
-% plot3(top_track(:,1),top_track(:,2),top_track(:,3),'y','LineWidth',3);
-% %plot3(points(:,1),points(:,2),points(:,3),'r','LineWidth',3);
-
 %% lepsi cesta 2
 
 % Sl = 103.986306*pi/180;
