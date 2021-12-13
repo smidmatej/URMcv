@@ -1,0 +1,35 @@
+%function [theta1,theta2,theta3] = IGM(x,y,a1,a2,a3)
+syms x y theta1 theta2 theta3 phi
+
+a1 = 2;
+a2 = 1.5;
+a3 = 0.5;
+
+A = [-a2*sin(theta2), (a2*cos(theta2) + a1); (a2*cos(theta2) + a1), a2*sin(theta2)];
+b = [x - a3*cos(theta1 + theta2 + theta3); y - sin(theta1 + theta2 + theta3)];
+%phi = theta1 + theta2 + theta3;
+X = [sin(theta1); cos(theta1)];
+[theta1, theta2] = solve([A*X == b],[theta1, theta2])
+
+
+%end
+
+function [Q1, Q2, Q3] = IGM_funkce( x, y, uhel, a1, a2, a3)
+% Q2
+    cosQ2 = ((x - a3 * cos(uhel))^2 + (y - a3 * sin(uhel))^2 - a2^2 - a1^2)/(2*a1*a2);
+    sinQ2 = - abs( sqrt(1 - cosQ2)); %reseni +-
+    
+    Q2 = atan2(sinQ2, cosQ2);
+% Q1
+    A = [-a2 * sinQ2, a2*cosQ2 + a1;
+         a2 * cosQ2 + a1, -a2*sinQ2];
+    B = [x - a3 * cos(uhel); y - a3 * sin(uhel)];
+    V = A^(-1) * B;
+    sinQ1 = V(1);
+    cosQ1 = V(2);
+    
+    Q1 = atan2(sinQ1, cosQ1);
+% Q3
+    
+    Q3 = uhel - Q2 - Q1;
+end
