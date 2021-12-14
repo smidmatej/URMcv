@@ -5,7 +5,7 @@ function [theta1, theta2, theta3] = IGM( x, y, phi, a1, a2, a3)
     theta2 = atan2(sinQ2, cosQ2); % Q2
     A = [-a2 * sinQ2, a2*cosQ2 + a1;
          a2 * cosQ2 + a1, -a2*sinQ2];
-    b = [x - a3 * cos(uhel); y - a3 * sin(phi)];
+    b = [x - a3 * cos(phi); y - a3 * sin(phi)];
     
     X = A\b;
     sin(theta1) = X(1);
