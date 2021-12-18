@@ -1,0 +1,74 @@
+function [x, y, phi, dx, dy, dphi, ddx, ddy, ddphi] = fcn(s, v, a, uhel_phi)
+%#codegen
+% x,y,phi pozadovana poloha + natoceni koncoveho efektoru
+% dx,dy,dphi pozadovana rychlost + uhlova rychlost
+% ddx,ddy,ddphi pozadovane zrychleni + uhlove zrychleni
+%% IOKU trajektorie
+A = [2; 0.5]; % bod A
+B = [0; 1]; % bod B
+C = [2; 2.5]; % bod C
+r = 0.3; % polomer kruznice
+vmax = 1; % maximalni rychlost
+dir = -1;
+
+nBA = (A - B)/ norm(A-B); % smerovy vektor z B do A
+nBC = (C - B)/ norm(C-B); % smerovy vektor z B do C
+nBS = (nBA  + nBC)/norm(nBA  + nBC); % smerovy vektor z B do S
+
+K1 = nBA * nBA' * nBS - nBS; 
+l = r/(sqrt(K1' * K1)); % konstantni vzdalenost z B do S
+S = B + nBS * l; % souradnice stredu kruznice
+k = nBA' * (A - S); 
+
+PA = A - nBA * k; % pocatecni bod oblouku
+PC = B + norm(PA - B) * nBC; %koncovy bod oblouku
+
+dPhi = acos((PC - S)' * (PA - S) / r^2); %delta phi
+SPA = (PA - S);
+phiPA = atan2(SPA(2), SPA(1));
+
+s1 = norm(PA - A); % prvni usek - usecka
+sk = r * dPhi; %druhy usek - oblouk
+s2 = norm(PC - C); % treti usek - usecka
+
+smax = s1 + sk + s2; % maximalni draha
+tmax = smax/vmax; % maximalni cas
+
+if s >=0 && s < s1
+    k1 = s;
+    dk1 = v;
+    ddk1 = a;
+    X = [A - k1*nBA; 0];
+    dX = [-dk1 * nBA; 0];
+    ddX = [-ddk1 * nBA; 0];
+    
+elseif s1 <= s && s < s1 + sk
+    Phi = (s - s1)/r; % uhel urcujici jak daleko na oblouku jsme (ruzne od phi)
+    dPhi = v/r;
+    ddPhi = a/r;
+    X = [r * [cos(phiPA + dir * Phi); sin(phiPA + dir * Phi)] + S; 0];
+    dX = [r * [-sin(phiPA + dir * Phi); cos(phiPA + dir * Phi)] * dir * dPhi; 0];
+    ddX = [r * [-cos(phiPA + dir * Phi); -sin(phiPA + dir * Phi)] * dir^2 * dPhi^2 + r * [-sin(phiPA + dir * Phi); cos(phiPA + dir * Phi)] * dir * ddPhi; 0];
+        
+elseif s1 + sk <= s && s <= s1 + sk + s2
+    k2 = s - s1 - sk;
+    dk2 = v;
+    ddk2 = a;
+    X = [PC + k2*nBC; 0];
+    dX = [dk2 * nBC; 0];
+    ddX = [ddk2 * nBC; 0];
+else
+    X = [0; 0; 0];
+    dX = [0; 0; 0];
+    ddX = [0; 0; 0];
+end
+
+x = X(1);
+y = X(2);
+phi = uhel_phi;
+dx = dX(1);
+dy = dX(2);
+dphi = dX(3);
+ddx = ddX(1);
+ddy = ddX(2);
+ddphi = ddX(3);
