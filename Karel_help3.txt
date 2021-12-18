@@ -1,0 +1,79 @@
+function [ x, y, fi, dx, dy, dfi, ddx, ddy, ddfi ] = trajektorie_funkce( poloha, rychlost, zrychleni )
+
+% x,y,phi pozadovana poloha + natoceni koncoveho efektoru
+% dx,dy,dphi pozadovana rychlost + uhlova rychlost
+% ddx,ddy,ddphi pozadovane zrychleni + uhlove zrychleni
+
+% IOKU trajektorie
+A = [2; 0.5]; 
+B = [0; 1]; 
+C = [2; 2.5]; 
+r = 0.3; % polomer kruznice
+vmax = 1; 
+dir = -1;
+
+n_BA = (A - B)/ norm(A-B); % smerovy vektor z B do A
+n_BC = (C - B)/ norm(C-B); % smerovy vektor z B do C
+n_BS = (n_BA  + n_BC)/norm(n_BA  + n_BC); % smerovy vektor z B do S
+K_1 = n_BA * n_BA' * n_BS - n_BS; 
+l = r/(sqrt(K_1' * K_1)); % konstantni vzdalenost z B do S
+S = B + n_BS * l; % souradnice stredu kruznice
+k = n_BA' * (A - S); 
+
+P_A = A - n_BA * k; % pocatecni bod oblouku
+P_C = B + norm(P_A - B) * n_BC; %koncovy bod oblouku
+
+dfi = acos((P_C - S)' * (P_A - S) / r^2); %delta phi
+S_PA = (P_A - S);
+fi_PA = atan2(S_PA(2), S_PA(1));
+
+s1 = norm(P_A - A); % prvni usek - usecka
+sk = r * dfi; %druhy usek - oblouk
+s2 = norm(P_C - C); % treti usek - usecka
+
+smax = s1 + sk + s2; % maximalni draha
+tmax = smax/vmax; % maximalni cas
+
+if poloha >=0 && poloha < s1
+    k1 = poloha;
+    dk1 = rychlost;
+    ddk1 = zrychleni;
+    X = [A - k1*n_BA; 0];
+    dX = [-dk1 * n_BA; 0];
+    ddX = [-ddk1 * n_BA; 0];
+    
+elseif s1 <= poloha && poloha < s1 + sk
+    fi = (poloha - s1)/r; % uhel urcujici jak daleko na oblouku jsme (ruzne od phi)
+    dfi = rychlost/r;
+    ddPhi = zrychleni/r;
+    X = [r * [cos(fi_PA + dir * fi); sin(fi_PA + dir * fi)] + S; 0];
+    dX = [r * [-sin(fi_PA + dir * fi); cos(fi_PA + dir * fi)] * dir * dfi; 0];
+    ddX = [r * [-cos(fi_PA + dir * fi); -sin(fi_PA + dir * fi)] * dir^2 * dfi^2 + r * [-sin(fi_PA + dir * fi); cos(fi_PA + dir * fi)] * dir * ddPhi; 0];
+        
+elseif s1 + sk <= poloha && poloha <= s1 + sk + s2
+    k2 = poloha - s1 - sk;
+    dk2 = rychlost;
+    ddk2 = zrychleni;
+    X = [P_C + k2*n_BC; 0];
+    dX = [dk2 * n_BC; 0];
+    ddX = [ddk2 * n_BC; 0];
+else
+    X = [0; 0; 0];
+    dX = [0; 0; 0];
+    ddX = [0; 0; 0];
+end
+
+phi_s = pi/2;
+phi_e = 0;
+
+x = X(1);
+y = X(2);
+fi = phi_s + poloha/smax * (phi_e - phi_s);
+dx = dX(1);
+dy = dX(2);
+dfi = rychlost/smax * (phi_e - phi_s);
+ddx = ddX(1);
+ddy = ddX(2);
+ddfi = zrychleni/smax * (phi_e - phi_s);
+
+end
