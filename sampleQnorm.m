@@ -1,15 +1,15 @@
 
+clear dQ
 
-imax = 20
+imax = 5
 fiss = linspace(-0.5,pi/2,imax)
 for i = 1:imax
     
     fi_sample = fiss(i);
-    output = sim('dontopenpls');
-    dQ(i,:) = output.normdQ.signals.values;
+    set_param('trajektorie_sim','SimMechanicsOpenEditorOnUpdate','on')
+    simulation = sim('trajektorie_sim');
+    dQ(i,:) = simulation.dQ_const.signals.values;
 end
-
-%%
 
 
 
@@ -21,7 +21,7 @@ end
 
 figure
 hold on
-s = surf(out.normdQ.time,fiss,dQ)
+s = surf(simulation.s_lin.signals.values,fiss,dQ)
 mycolors = flip([1 0 0; 1 1 0; 0 0 1]');
 s.FaceColor = 'interp'
 % colormap(jet);
@@ -45,9 +45,8 @@ ylim([min(fiss),max(fiss)])
 xlim([0,smax])
 % view(([0,90]))
 
-%%
 
-plot3(out.normdQ.time,out.phi_sample.signals.values, out.normdQ.signals.values)
+plot3(simulation.s_lin.signals.values, simulation.phi_lin.signals.values, simulation.dQ_lin.signals.values,'+')
 
 
 % clear normy

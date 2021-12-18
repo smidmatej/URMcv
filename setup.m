@@ -10,6 +10,8 @@ a3 = 0.5
 r = a1-a2-a3 % nejvetsi - suma mensich je asi vnitrni polomer
 R = a1+a2+a3 % kam az dosahne
 
+
+v = 0.01
 % parametry sme urcite dostali aby r = 0
 % 
 % a1 = 3
