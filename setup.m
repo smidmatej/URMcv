@@ -3,7 +3,10 @@ a1 = 2
 a2 = 1.5
 a3 = 0.5
 
-%pracovni prostor
+%pracovni prosto
+
+
+
 r = a1-a2-a3 % nejvetsi - suma mensich je asi vnitrni polomer
 R = a1+a2+a3 % kam az dosahne
 
@@ -29,6 +32,9 @@ T_3_2 = [cos(theta30), -sin(theta30), 0, a3*cos(theta30);
     0 0 1 0;
     0 0 0 1]
 % [x,y,phi] = DGM(1,1,1,a1,a2,a3)
+
+smax = 3.9769
+fi_s = pi/2
 
 %% zlo v podobe symbolickeho toolboxu
 % syms a3 a2 a1 theta1 theta2 theta3 
