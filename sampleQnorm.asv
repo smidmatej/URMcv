@@ -47,9 +47,9 @@ view(([0,90]))
 % view(([-30,20]))
 
 plot3(simulation.s_lin.signals.values, simulation.phi_lin.signals.values, simulation.dQ_lin.signals.values,'-g','LineWidth',3)
-% plot3(simulation.s_lin.signals.values, linphi, linQ,'-r','LineWidth',3)
-% linphi = simulation.phi_lin.signals.values
-% linQ = simulation.dQ_lin.signals.values
+
+quadraticphi = simulation.phi_lin.signals.values
+quadraticQ = 
 
 
 % clear normy
