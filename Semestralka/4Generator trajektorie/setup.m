@@ -3,12 +3,8 @@ a1 = 2
 a2 = 1.5
 a3 = 0.5
 
-
-
-
 r = a1-a2-a3 % nejvetsi - suma mensich je asi vnitrni polomer
 R = a1+a2+a3 % kam az dosahne
-
 
 v = 0.5
 v2 = 2
