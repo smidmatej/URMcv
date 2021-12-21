@@ -31,7 +31,7 @@ T_3_2 = [cos(theta30), -sin(theta30), 0, a3*cos(theta30);
     0 0 1 0;
     0 0 0 1];
 
-simulation = sim('trajektorie_sim');
+simulation = sim('OvereniPOKUIOKU');
 
 %% Vykresleni
 figure

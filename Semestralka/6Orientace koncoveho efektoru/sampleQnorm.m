@@ -36,8 +36,9 @@ fiss = linspace(-0.5,pi/2,imax)
 for i = 1:imax
     
     fi_sample = fiss(i);
-    set_param('linearni_quad_trajektorie','SimMechanicsOpenEditorOnUpdate','off')
+    
     simulation = sim('linearni_quad_trajektorie');
+    set_param('linearni_quad_trajektorie','SimMechanicsOpenEditorOnUpdate','off')
     dQ(i,:) = simulation.dQ_const.signals.values;
 end
 
