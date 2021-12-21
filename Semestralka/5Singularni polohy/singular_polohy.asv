@@ -92,26 +92,26 @@ xlabel('Zobecnena souradnice $x$','interpreter','latex')
 ylabel('Zobecnena souradnice $y$','interpreter','latex')
 zlabel('Zobecnena souradnice $\varphi$','interpreter','latex')
 
-%% Roztazeni do prostoru
+%% 
 
-% tmax = 100;
-% inneramp = a1-a2;
-% outeramp = a3;
-% t = linspace(0,2*pi,tmax);
-% for i = 1:tmax
-%     
-%     x0(i) = inneramp*sin(t(i));
-%     y0(i) = inneramp*cos(t(i));
-%     
-%     jmax = 100;
-%     th = linspace(0,2*pi,jmax);
-%     for j = 1:jmax
-%         xouter(i,j) = outeramp * cos(th(j)) + x0(i);
-%         youter(i,j) = outeramp * sin(th(j)) + y0(i);
-%         fi0(i,j) = t(i);
-%     end
-% end
-% 
-% figure
-% plot3(x0,y0,fi0(:,1))
-% scatter3(reshape(xouter,length(xouter)*length(xouter),1),reshape(youter,length(youter)*length(youter),1),reshape(fi0,length(youter)*length(youter),1))
+tmax = 100
+inneramp = a1-a2;
+outeramp = a3;
+t = linspace(0,2*pi,tmax)
+for i = 1:tmax
+    
+    x0(i) = inneramp*sin(t(i));
+    y0(i) = inneramp*cos(t(i));
+    
+    jmax = 100;
+    th = linspace(0,2*pi,jmax);
+    for j = 1:jmax
+        xouter(i,j) = outeramp * cos(th(j)) + x0(i);
+        youter(i,j) = outeramp * sin(th(j)) + y0(i);
+        fi0(i,j) = t(i);
+    end
+end
+
+figure
+plot3(x0,y0,fi0(:,1))
+scatter3(reshape(xouter,length(xouter)*length(xouter),1),reshape(youter,length(youter)*length(youter),1),reshape(fi0,length(youter)*length(youter),1))
