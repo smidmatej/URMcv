@@ -1,0 +1,24 @@
+close all
+clear all
+a1 = 2
+a2 = 1.5
+a3 = 0.5
+
+Q1 = linspace(-pi,pi,10);
+Q3 = linspace(-pi,pi,20);
+Q2 = 0; % nebo Q2 = pi;
+
+phi = Q1 + Q2 + Q3;
+%(x-a3*cos(phi))^2 + (y-a3*sin(phi))^2 = (a1+a2)^2;
+%(x-a3*cos(phi))^2 + (y-a3*sin(phi))^2 = (a1-a2)^2;
+
+x0 = a3*cos(phi);
+y0 = a3*sin(phi);
+r1 = (a1+a2);
+r2 = (a1-a2);
+
+figure
+hold on
+ezplot(@(x,y) (x-x0).^2 + (y-y0).^2 -r1^2)
+ezplot(@(x,y) (x-x0).^2 + (y-y0).^2 -r2^2)
+
