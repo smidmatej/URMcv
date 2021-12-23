@@ -4,12 +4,8 @@ a1 = 2
 a2 = 1.5
 a3 = 0.5
 
-
-
-
 r = a1-a2-a3 % nejvetsi - suma mensich je asi vnitrni polomer
 R = a1+a2+a3 % kam az dosahne
-
 
 v = 0.5
 v2 = 2
@@ -40,8 +36,9 @@ fiss = linspace(-0.5,pi/2,imax)
 for i = 1:imax
     
     fi_sample = fiss(i);
-    set_param('trajektorie_sim','SimMechanicsOpenEditorOnUpdate','off')
-    simulation = sim('trajektorie_sim');
+    
+    simulation = sim('linearni_quad_trajektorie');
+    set_param('linearni_quad_trajektorie','SimMechanicsOpenEditorOnUpdate','off')
     dQ(i,:) = simulation.dQ_const.signals.values;
 end
 
