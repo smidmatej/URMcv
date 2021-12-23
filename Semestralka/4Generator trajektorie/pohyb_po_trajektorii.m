@@ -108,10 +108,10 @@ title('Pohyb po generovane trajektorii','interpreter','latex')
 
 figure
 hold on
-plot(simulation.tout, ones(1,length(simulation.tout))*simulation.v.Data(:))
+plot(simulation.tout, ones(1,length(simulation.tout))*simulation.v.Data(:),'--')
 plot(simulation.tout, simulation.vmax.Data(:))
 
-ylim([0 3])
+ylim([0 2])
 
 legend({'$v_{ref}$  ','$v$'},'interpreter','latex')
 xlabel('Time t [s]','interpreter','latex')
